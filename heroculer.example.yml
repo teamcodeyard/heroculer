@@ -1,0 +1,21 @@
+version: "1.0"
+
+services:
+  api:
+    remote: https://git.heroku.com/example-app-stage-api.git
+    env_file: api.stage.env
+    environment:
+      SERVICES: api
+      PORT: 3000
+  posts:
+    remote: https://git.heroku.com/example-app-stage-posts.git
+    env_file: posts.stage.env
+    environment:
+      SERVICES: posts
+      PORT: 3000
+  users:
+    remote: https://git.heroku.com/example-app-stage-users.git
+    env_file: users.stage.env
+    environment:
+      SERVICES: users
+      PORT: 3000
