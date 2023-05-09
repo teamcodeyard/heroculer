@@ -1,9 +1,0 @@
-version: "1.0"
-name: "example-app"
-
-#https://git.heroku.com/heroculer-demo-api.git
-
-services:
-  - api
-  - posts
-  - users
