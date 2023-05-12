@@ -23,7 +23,8 @@ export default class Init extends Command {
     for (let service of config.services) {
       const serviceName = Object.keys(service)[0];
       ux.action.start(`Add ${serviceName} remote to git`, 'initializing', { stdout: true })
-      const remote = service[serviceName].remote
+      const appName = service[serviceName].app_name
+      const remote = `https://git.heroku.com/${appName}.git`
       try {
         await exec(`git remote add ${serviceName} ${remote}`)
         ux.action.stop('✅ Done!')
