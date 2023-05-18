@@ -1,337 +1,89 @@
-oclif-hello-world
-=================
+[![Moleculer logo](http://moleculer.services/images/banner.png)](https://github.com/moleculerjs/moleculer)
 
-oclif example Hello World CLI
+<br>
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world)
-[![CircleCI](https://circleci.com/gh/oclif/hello-world/tree/main.svg?style=shield)](https://circleci.com/gh/oclif/hello-world/tree/main)
-[![Downloads/week](https://img.shields.io/npm/dw/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world)
-[![License](https://img.shields.io/npm/l/oclif-hello-world.svg)](https://github.com/oclif/hello-world/blob/main/package.json)
+🚀 Deploy your [Moleculer](https://moleculer.services/) microservices to multiple [Heroku](https://heroku.com) apps. 
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
+[![NPM version](https://img.shields.io/npm/v/@codeyard/heroculer.svg)](https://www.npmjs.com/package/@codeyard/heroculer)
+
+
+
+<br>
+
+# Install
+
+```bash
+$ npm install @codeyard/heroculer --save
+```
+
+<br>
+
 # Usage
-<!-- usage -->
-```sh-session
-$ npm install -g heroculer
-$ heroculer COMMAND
-running command...
-$ heroculer (--version)
-heroculer/0.0.0 darwin-x64 node-v16.14.0
-$ heroculer --help [COMMAND]
-USAGE
-  $ heroculer COMMAND
-...
-```
-<!-- usagestop -->
-# Commands
-<!-- commands -->
-* [`heroculer hello PERSON`](#heroculer-hello-person)
-* [`heroculer hello world`](#heroculer-hello-world)
-* [`heroculer help [COMMANDS]`](#heroculer-help-commands)
-* [`heroculer plugins`](#heroculer-plugins)
-* [`heroculer plugins:install PLUGIN...`](#heroculer-pluginsinstall-plugin)
-* [`heroculer plugins:inspect PLUGIN...`](#heroculer-pluginsinspect-plugin)
-* [`heroculer plugins:install PLUGIN...`](#heroculer-pluginsinstall-plugin-1)
-* [`heroculer plugins:link PLUGIN`](#heroculer-pluginslink-plugin)
-* [`heroculer plugins:uninstall PLUGIN...`](#heroculer-pluginsuninstall-plugin)
-* [`heroculer plugins:uninstall PLUGIN...`](#heroculer-pluginsuninstall-plugin-1)
-* [`heroculer plugins:uninstall PLUGIN...`](#heroculer-pluginsuninstall-plugin-2)
-* [`heroculer plugins update`](#heroculer-plugins-update)
 
-## `heroculer hello PERSON`
+## Initialize remote repositories with your heroculer.yml config file
 
-Say hello
-
-```
-USAGE
-  $ heroculer hello PERSON -f <value>
-
-ARGUMENTS
-  PERSON  Person to say hello to
-
-FLAGS
-  -f, --from=<value>  (required) Who is saying hello
-
-DESCRIPTION
-  Say hello
-
-EXAMPLES
-  $ oex hello friend --from oclif
-  hello friend from oclif! (./src/commands/hello/index.ts)
+```bash
+$ heroculer init -f heroculer.yml
 ```
 
-_See code: [dist/commands/hello/index.ts](https://github.com/teamcodeyard/heroculer/blob/v0.0.0/dist/commands/hello/index.ts)_
+<br>
 
-## `heroculer hello world`
+## heroculer.yml
 
-Say hello world
+```yml
+version: "1.0"
 
-```
-USAGE
-  $ heroculer hello world
-
-DESCRIPTION
-  Say hello world
-
-EXAMPLES
-  $ heroculer hello world
-  hello world! (./src/commands/hello/world.ts)
-```
-
-## `heroculer help [COMMANDS]`
-
-Display help for heroculer.
-
-```
-USAGE
-  $ heroculer help [COMMANDS] [-n]
-
-ARGUMENTS
-  COMMANDS  Command to show help for.
-
-FLAGS
-  -n, --nested-commands  Include all nested commands in the output.
-
-DESCRIPTION
-  Display help for heroculer.
-```
-
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.9/src/commands/help.ts)_
-
-## `heroculer plugins`
-
-List installed plugins.
-
-```
-USAGE
-  $ heroculer plugins [--core]
-
-FLAGS
-  --core  Show core plugins.
-
-DESCRIPTION
-  List installed plugins.
-
-EXAMPLES
-  $ heroculer plugins
+services:
+  - api:
+      app_name: heroculer-demo-api
+      env_file: demo.env
+      environment:
+        - SERVICES: api
+        - SERVICEDIR: services
+        - PORT: 80
+        - TRANSPORTER: <TRANSPORTER_LINK>
+      processes:
+        - web: 1
+  - products:
+      app_name: heroculer-demo-products
+      env_file: demo.env
+      environment:
+        - SERVICES: products
+        - SERVICEDIR: services
+        - PORT: 3000
+        - TRANSPORTER: <TRANSPORTER_LINK>
+      processes:
+        - web: 0
+        - worker: 1
+  - greeter:
+      app_name: heroculer-demo-greeter
+      env_file: demo.env
+      environment:
+        - SERVICES: greeter
+        - SERVICEDIR: services
+        - PORT: 3000
+        - TRANSPORTER: <TRANSPORTER_LINK>
+      processes:
+        - web: 0
+        - worker: 1
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.6/src/commands/plugins/index.ts)_
+<br>
 
-## `heroculer plugins:install PLUGIN...`
+### Important notes
 
-Installs a plugin into the CLI.
+<br>
 
-```
-USAGE
-  $ heroculer plugins:install PLUGIN...
+> Use *SERVICES* environment variable to manage which microservice should run inside your Heroku application. 
 
-ARGUMENTS
-  PLUGIN  Plugin to install.
+<br>
 
-FLAGS
-  -f, --force    Run yarn install with force flag.
-  -h, --help     Show CLI help.
-  -v, --verbose
+# License
 
-DESCRIPTION
-  Installs a plugin into the CLI.
-  Can be installed from npm or a git url.
+The project is available under the [MIT license](./LICENSE).
 
-  Installation of a user-installed plugin will override a core plugin.
+# Contact
 
-  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command
-  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
-  the CLI without the need to patch and update the whole CLI.
+Copyright (c) 2016-2019 MoleculerJS
 
-
-ALIASES
-  $ heroculer plugins add
-
-EXAMPLES
-  $ heroculer plugins:install myplugin 
-
-  $ heroculer plugins:install https://github.com/someuser/someplugin
-
-  $ heroculer plugins:install someuser/someplugin
-```
-
-## `heroculer plugins:inspect PLUGIN...`
-
-Displays installation properties of a plugin.
-
-```
-USAGE
-  $ heroculer plugins:inspect PLUGIN...
-
-ARGUMENTS
-  PLUGIN  [default: .] Plugin to inspect.
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  Displays installation properties of a plugin.
-
-EXAMPLES
-  $ heroculer plugins:inspect myplugin
-```
-
-## `heroculer plugins:install PLUGIN...`
-
-Installs a plugin into the CLI.
-
-```
-USAGE
-  $ heroculer plugins:install PLUGIN...
-
-ARGUMENTS
-  PLUGIN  Plugin to install.
-
-FLAGS
-  -f, --force    Run yarn install with force flag.
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Installs a plugin into the CLI.
-  Can be installed from npm or a git url.
-
-  Installation of a user-installed plugin will override a core plugin.
-
-  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command
-  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
-  the CLI without the need to patch and update the whole CLI.
-
-
-ALIASES
-  $ heroculer plugins add
-
-EXAMPLES
-  $ heroculer plugins:install myplugin 
-
-  $ heroculer plugins:install https://github.com/someuser/someplugin
-
-  $ heroculer plugins:install someuser/someplugin
-```
-
-## `heroculer plugins:link PLUGIN`
-
-Links a plugin into the CLI for development.
-
-```
-USAGE
-  $ heroculer plugins:link PLUGIN
-
-ARGUMENTS
-  PATH  [default: .] path to plugin
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Links a plugin into the CLI for development.
-  Installation of a linked plugin will override a user-installed or core plugin.
-
-  e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello'
-  command will override the user-installed or core plugin implementation. This is useful for development work.
-
-
-EXAMPLES
-  $ heroculer plugins:link myplugin
-```
-
-## `heroculer plugins:uninstall PLUGIN...`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ heroculer plugins:uninstall PLUGIN...
-
-ARGUMENTS
-  PLUGIN  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ heroculer plugins unlink
-  $ heroculer plugins remove
-```
-
-## `heroculer plugins:uninstall PLUGIN...`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ heroculer plugins:uninstall PLUGIN...
-
-ARGUMENTS
-  PLUGIN  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ heroculer plugins unlink
-  $ heroculer plugins remove
-```
-
-## `heroculer plugins:uninstall PLUGIN...`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ heroculer plugins:uninstall PLUGIN...
-
-ARGUMENTS
-  PLUGIN  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ heroculer plugins unlink
-  $ heroculer plugins remove
-```
-
-## `heroculer plugins update`
-
-Update installed plugins.
-
-```
-USAGE
-  $ heroculer plugins update [-h] [-v]
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Update installed plugins.
-```
-<!-- commandsstop -->
+[![@moleculerjs](https://img.shields.io/badge/github-moleculerjs-green.svg)](https://github.com/moleculerjs) [![@MoleculerJS](https://img.shields.io/badge/twitter-MoleculerJS-blue.svg)](https://twitter.com/MoleculerJS)
