@@ -11,7 +11,7 @@ export default class Deploy extends Command {
   static description = 'Deploy your MoleculerJS services to Heroku'
   appName: string = ""
   static examples = [
-    `$ `,
+    `$ heroculer deploy -f heroculer.stage.yml -s api`,
   ]
 
   static flags = {
